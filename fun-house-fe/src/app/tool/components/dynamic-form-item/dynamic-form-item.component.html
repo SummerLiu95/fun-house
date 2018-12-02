@@ -1,0 +1,22 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item *ngFor="let control of controlArray;let i = index">
+    <nz-form-label [nzXs]="24" [nzSm]="8" [nzFor]="control.controlInstance">关键词{{i + 1}}</nz-form-label>
+    <nz-form-control [nzXs]="24" [nzSm]="16" [nzOffset]="0">
+      <input nz-input style="width: 60%; margin-right:8px;" [placeholder]="'请输入心意房子关键词' + (i+1)" [attr.id]="control.id" [formControlName]="control.controlInstance">
+      <i nz-icon type="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control,$event)"></i>
+      <nz-form-explain *ngIf="getFormControl(control.controlInstance)?.dirty&&getFormControl(control.controlInstance)?.hasError('required')">
+        请输入心意房子关键词或者删除该关键词
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzXs]="{span:24,offset:0}" [nzSm]="{span:16,offset:8}">
+      <button nz-button nzType="dashed" style="width:60%" (click)="addField($event)"><i nz-icon type="plus"></i> 增加关键词选项</button>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzXs]="{span:24,offset:0}" [nzSm]="{span:20,offset:12}">
+      <button nz-button nzType="primary">查找</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

@@ -1,0 +1,28 @@
+{
+  "name": "fun-house",
+  "version": "1.0.0",
+  "description": "FunHouse项目后端api部分",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node-dev"
+  },
+  "keywords": [
+    "spider",
+    "douban"
+  ],
+  "author": "ZhiyuLiu",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "cheerio": "^1.0.0-rc.2",
+    "random-ua": "0.0.6",
+    "request": "^2.87.0",
+    "superagent": "^3.8.3",
+    "superagent-proxy": "^1.0.3",
+    "superagent-retry-delay": "^2.2.4"
+  },
+  "devDependencies": {
+    "node-dev": "^3.1.3"
+  }
+}

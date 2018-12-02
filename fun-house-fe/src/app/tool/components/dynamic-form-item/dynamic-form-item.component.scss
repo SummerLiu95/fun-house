@@ -1,0 +1,16 @@
+nz-form-item {
+  margin-top: 2rem;
+
+  .dynamic-delete-button {
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    font-size: 24px;
+    color: #999;
+    transition: all .3s;
+
+    &:hover {
+      color: #777;
+    }
+  }
+}
