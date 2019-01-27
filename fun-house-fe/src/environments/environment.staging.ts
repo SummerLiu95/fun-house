@@ -2,5 +2,6 @@
 
 export const environment = {
   production: false,
-  envName: 'staging'
+  envName: 'staging',
+  baseURL: 'http://funhouse.barryliu1995.studio/api/'
 };

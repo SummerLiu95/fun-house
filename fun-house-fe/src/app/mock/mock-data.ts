@@ -1,13 +1,23 @@
 import * as Mock from 'mockjs';
-import { Random } from 'mockjs';
 
-export const players = Mock.mock({
-  'errorCode': '@integer(0,5)',
+export const heroes = Mock.mock({
+  'code': '@integer(0,5)',
   'msg': '@sentence(0, 9)',
-  'data|1-10': [{
-    'name': '@first @last',
-    'age': '@integer(0, 100)',
-    'address': '@county(true)',
-    'email': '@EMAIL'
-  }]
+  'data': {
+    'total': 40,
+    'list': [
+      { id: 11, name: 'Mr. Nice' },
+      { id: 12, name: 'Narco' },
+      { id: 13, name: 'Bombasto' },
+      { id: 14, name: 'Celeritas' },
+      { id: 15, name: 'Magneta' },
+      { id: 16, name: 'RubberMan' },
+      { id: 17, name: 'Dynama' },
+      { id: 18, name: 'Dr IQ' },
+      { id: 19, name: 'Magma' },
+      { id: 20, name: 'Tornado' }
+      ],
+    'pageNum': 1,
+    'pageSize': 10
+  }
 });

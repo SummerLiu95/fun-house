@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 import { DynamicFormItemComponent } from './components/dynamic-form-item/dynamic-form-item.component';
@@ -10,11 +9,10 @@ import { DynamicFormItemComponent } from './components/dynamic-form-item/dynamic
   declarations: [DynamicFormItemComponent],
   imports: [
     CommonModule,
-    NgZorroAntdModule,
+    ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule
+    NgZorroAntdModule
   ],
-  exports: [DynamicFormItemComponent],
-  entryComponents: []
+  exports: [DynamicFormItemComponent]
 })
 export class ToolModule { }

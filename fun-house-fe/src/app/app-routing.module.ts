@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LoginComponent } from './workspace/login/login.component';
 import { NotFoundComponent } from './workspace/not-found/not-found.component';
+import { SelectivePreloadingStrategyService } from './tool/service/selective-preloading-strategy.service';
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
     path: '',
-    redirectTo: '/workspace/main',
+    redirectTo: '/search',
     pathMatch: 'full'
   },
   {
@@ -21,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: SelectivePreloadingStrategyService })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

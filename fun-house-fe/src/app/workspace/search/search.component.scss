@@ -23,7 +23,7 @@ $main_search_width: 30%;
     background: #fff;
     padding: 2.5rem 1.5rem;
 
-    
+
     .main__search {
       float: left;
       width: $main_search_width;
@@ -35,7 +35,7 @@ $main_search_width: 30%;
         height: 100%;
       }
     }
-    
+
     .main__result {
       float: left;
       width: 100% - $main_search_width;
@@ -55,4 +55,3 @@ $main_search_width: 30%;
   height: $footer_height;
   line-height: $footer_height;
 }
-

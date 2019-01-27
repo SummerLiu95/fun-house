@@ -3,7 +3,7 @@
     <nz-form-label [nzXs]="24" [nzSm]="8" [nzFor]="control.controlInstance">关键词{{i + 1}}</nz-form-label>
     <nz-form-control [nzXs]="24" [nzSm]="16" [nzOffset]="0">
       <input nz-input style="width: 60%; margin-right:8px;" [placeholder]="'请输入心意房子关键词' + (i+1)" [attr.id]="control.id" [formControlName]="control.controlInstance">
-      <i nz-icon type="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control,$event)"></i>
+      <i nz-icon type="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
       <nz-form-explain *ngIf="getFormControl(control.controlInstance)?.dirty&&getFormControl(control.controlInstance)?.hasError('required')">
         请输入心意房子关键词或者删除该关键词
       </nz-form-explain>

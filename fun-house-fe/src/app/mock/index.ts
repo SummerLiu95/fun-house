@@ -1,7 +1,7 @@
-import { players } from './mock-data';
+import { heroes } from './mock-data';
 
 export default {
-  'GET players': (req) => {
-    return players;
+  'GET heroes': (req) => {
+    return heroes;
   }
 };

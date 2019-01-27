@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "front-end-project-standard-demo": {
+    "fun-house-fe": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/front-end-project-standard-demo",
+            "outputPath": "dist/fun-house-fe",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -75,21 +75,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "front-end-project-standard-demo:build"
+            "browserTarget": "fun-house-fe:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "front-end-project-standard-demo:build:production"
+              "browserTarget": "fun-house-fe:build:production"
             },
             "staging": {
-              "browserTarget": "your-project-name:build:staging"
+              "browserTarget": "fun-house-fe:build:staging"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "front-end-project-standard-demo:build"
+            "browserTarget": "fun-house-fe:build"
           }
         },
         "test": {
@@ -124,7 +124,7 @@
         }
       }
     },
-    "front-end-project-standard-demo-e2e": {
+    "fun-house-fe-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -133,11 +133,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "front-end-project-standard-demo:serve"
+            "devServerTarget": "fun-house-fe:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "front-end-project-standard-demo:serve:production"
+              "devServerTarget": "fun-house-fe:serve:production"
             }
           }
         },
@@ -153,5 +153,5 @@
       }
     }
   },
-  "defaultProject": "front-end-project-standard-demo"
+  "defaultProject": "fun-house-fe"
 }
