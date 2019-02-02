@@ -21,3 +21,19 @@ export const heroes = Mock.mock({
     'pageSize': 10
   }
 });
+
+export const crises = Mock.mock({
+  'code': '@integer(0,5)',
+  'msg': '@sentence(0, 9)',
+  'data': {
+    'total': 40,
+    'list': [
+      { id: 1, name: 'Dragon Burning Cities' },
+      { id: 2, name: 'Sky Rains Great White Sharks' },
+      { id: 3, name: 'Giant Asteroid Heading For Earth' },
+      { id: 4, name: 'Procrastinators Meeting Delayed Again' }
+    ],
+    'pageNum': 1,
+    'pageSize': 10
+  }
+});

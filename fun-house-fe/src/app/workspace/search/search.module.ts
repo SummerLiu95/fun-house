@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {NgZorroAntdModule} from 'ng-zorro-antd';
-import {ToolModule} from '../../tool/tool.module';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { SharedModule } from '../../shared/shared.module';
 
 import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
@@ -13,7 +13,7 @@ import { SearchComponent } from './search.component';
     CommonModule,
     SearchRoutingModule,
     NgZorroAntdModule,
-    ToolModule
+    SharedModule
   ]
 })
 export class SearchModule { }

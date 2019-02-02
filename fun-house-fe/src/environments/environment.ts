@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   envName: 'dev',
-  baseURL: ''
+  baseURL: '',
+  hmr: false
 };
 
 /*

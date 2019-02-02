@@ -20,7 +20,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
     |-- tool
     |   |-- api.ts
     |   |-- can-deactivate.guard.ts
-    |   |-- tool.module.ts
+    |   |-- shared.module.ts
     |   |-- animations
     |   |-- components
     |   |-- pipes
@@ -31,8 +31,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
     |   |   |-- http.service.ts
     |   |   |-- selective-preloading-strategy.service.ts
     |   |-- type
-    |       |-- crisis-center.ts
-    |       |-- heroes.ts
     |       |-- types.ts
     |-- workspace
         |-- admin
@@ -104,7 +102,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 
-如上图所示，项目源代码目录 `src/app` 下有个根模块 AppModule，同时该根模块还拥有 $(n+1)$ 个子模块 ToolModule 工具模块和 $n$ 个业务模块。其中 ToolModule 模块提供项目其他 $n$ 个业务模块所需用到的自定义组件、动画、指令、管道等，同时需要注意的是将 ToolModule 的 `exports` 属性将对应可声明对象（组件、指令、管道）声明出去，供项目其余的 $n$ 个业务模块使用。而业务模块主要根据业务功能分模块，同时业务的路由配置也写在模块内，特别是当一个业务模块有子页面时，则模块内可根据子页面再进行细分，如上图中的 crisis-center、heroes模块。同时业务模块中的登录模块，404模块的路由配置在根模块这一级别。
+如上图所示，项目源代码目录 `src/app` 下有个根模块 AppModule，同时该根模块还拥有 $(n+1)$ 个子模块 SharedModule 工具模块和 $n$ 个业务模块。其中 SharedModule 模块提供项目其他 $n$ 个业务模块所需用到的自定义组件、动画、指令、管道等，同时需要注意的是将 SharedModule 的 `exports` 属性将对应可声明对象（组件、指令、管道）声明出去，供项目其余的 $n$ 个业务模块使用。而业务模块主要根据业务功能分模块，同时业务的路由配置也写在模块内，特别是当一个业务模块有子页面时，则模块内可根据子页面再进行细分，如上图中的 crisis-center、heroes模块。同时业务模块中的登录模块，404模块的路由配置在根模块这一级别。
 
 而 `app/mock` 目录下则为开发过程中 mock 数据接口的相关文件：`index.ts` 以及 `mock-data.ts`。其中 `index.ts` 中编写项目所使用的第三方库 @delon/mock 的 mock 数据的逻辑代码，而 `mock-data.ts` 中则使用第三方库 mockjs 去编写对应接口返回的数据。具体可查看代码进行理解。
 
@@ -196,7 +194,7 @@ npm run dev
 
 组件文件夹命名以单个小写英文单词为主，例如 login、main、map 等。如果需要多个英文单词命名文件夹，则使用“-”连字，例如 not-found。
 
-而组件命名则使用大驼峰命名风格，例如 WorkspaceModule、ToolModule、LoadingAnimation、LoginComponent、NumberPipe 等
+而组件命名则使用大驼峰命名风格，例如 WorkspaceModule、SharedModule、LoadingAnimation、LoginComponent、NumberPipe 等
 
 
 

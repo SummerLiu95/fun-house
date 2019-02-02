@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundComponent } from './workspace/not-found/not-found.component';
-import { SelectivePreloadingStrategyService } from './tool/service/selective-preloading-strategy.service';
+import { SelectivePreloadingStrategyService } from './shared/service/selective-preloading-strategy.service';
 
 const routes: Routes = [
   {

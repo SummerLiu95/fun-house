@@ -70,10 +70,10 @@ export class HttpService {
    * GET 请求
    * @param _url|string 请求地址
    * @param _params|ParamsType 参数对象
-   * @param feedback|string 请求的操作含义
-   * @param safeResult|any 请求错误时的返回值
+   * @param safeResponse|HttpResponseType 请求错误时的返回值
+   * @param errorSource|string 引起错误的操作来源
    */
-  Get(_url: string, _params: ParamsType = {}, feedback: string = 'operation', safeResult: any): Observable<HttpResponseType> {
+  Get(_url: string, _params: ParamsType = {}, safeResponse: HttpResponseType, errorSource: string = '', ): Observable<HttpResponseType> {
     const URL = environment.baseURL + _url;
     const params = new HttpParams({
       fromObject: _params
@@ -81,7 +81,8 @@ export class HttpService {
     return this.httpClient.get(URL, {
       params
     }).pipe(
-      catchError(this.handleError('', feedback, safeResult))
+      map((response: HttpResponseType) => response),
+      catchError(this.handleError(safeResponse, errorSource))
     );
   }
 
@@ -90,20 +91,25 @@ export class HttpService {
    * @param _url|string 请求地址
    * @param _params|ParamsType 参数对象
    * @param contentType|ContentType Post请求body编码格式
-   * @param feedback|string 请求的操作含义
-   * @param safeResult|any 请求错误时的返回值
+   * @param safeResponse|HttpResponseType 请求错误时的返回值
+   * @param userNotification|boolean 是否显示操作提示弹框
+   * @param errorSource|string 引起错误的操作来源
    */
-  Post(_url: string, _params: ParamsType, contentType: PostContentType, feedback: string = 'operation', safeResult: any): Observable<HttpResponseType> {
+  Post(_url: string, _params: ParamsType, contentType: PostContentType, safeResponse: HttpResponseType,
+       userNotification: boolean = true, errorSource: string = ''): Observable<HttpResponseType> {
     const URL = environment.baseURL + _url;
     const contentTypeArray = [new HttpParams({fromObject: _params}), _params, this.toFormData(_params)];
-    const messageID = this.message.loading('添加中...', { nzDuration: 0 }).messageId;
+    let messageID = '';
+    if (userNotification) {
+      messageID = this.message.loading('添加中...', { nzDuration: 0 }).messageId;
+    }
     return this.httpClient.post(URL, contentTypeArray[contentType], {
       
     }).pipe(
       map((response: HttpResponseType) => {
         return this.responseHandler(response, messageID);
         }),
-      catchError(this.handleError(messageID, feedback, safeResult))
+      catchError(this.handleError(safeResponse, errorSource, messageID))
     );
   }
 
@@ -111,19 +117,24 @@ export class HttpService {
    * 请求主体为 JSON 的 PUT 请求
    * @param _url|string 请求地址
    * @param _params|ParamsType 参数对象
-   * @param feedback|string 请求的操作含义
-   * @param safeResult|any 请求错误时的返回值
+   * @param safeResponse|HttpResponseType 请求错误时的返回值
+   * @param userNotification|boolean 是否显示操作提示弹框
+   * @param errorSource|string 引起错误的操作来源
    */
-  Put(_url: string, _params: ParamsType, feedback: string = 'operation', safeResult: any): Observable<HttpResponseType> {
+  Put(_url: string, _params: ParamsType, safeResponse: HttpResponseType, userNotification: boolean = true,
+      errorSource: string = ''): Observable<HttpResponseType> {
     const URL = environment.baseURL + _url;
-    const messageID = this.message.loading('更新中...', { nzDuration: 0 }).messageId;
+    let messageID = '';
+    if (userNotification) {
+      messageID = this.message.loading('更新中...', { nzDuration: 0 }).messageId;
+    }
     return this.httpClient.put(URL, _params, {
 
     }).pipe(
       map((response: HttpResponseType) => {
         return this.responseHandler(response, messageID);
         }),
-      catchError(this.handleError(messageID, feedback, safeResult))
+      catchError(this.handleError(safeResponse, errorSource, messageID))
     );
   }
 
@@ -131,22 +142,27 @@ export class HttpService {
    * DELETE 请求
    * @param _url|string API接口地址
    * @param _params|ParamsType 参数对象
-   * @param feedback|string 请求的操作含义
-   * @param safeResult|any 请求错误时的返回值
+   * @param safeResponse|HttpResponseType 请求错误时的返回值
+   * @param userNotification|boolean 是否显示操作提示弹框
+   * @param errorSource|string 引起错误的操作来源
    */
-  Delete(_url: string, _params: ParamsType, feedback: string = 'operation', safeResult: any): Observable<HttpResponseType> {
+  Delete(_url: string, _params: ParamsType, safeResponse: HttpResponseType, userNotification: boolean = true,
+         errorSource: string = ''): Observable<HttpResponseType> {
     const URL = environment.baseURL + _url;
     const params = new HttpParams({
       fromObject: _params
     });
-    const messageID = this.message.loading('删除中...', { nzDuration: 0 }).messageId;
+    let messageID = '';
+    if (userNotification) {
+      messageID = this.message.loading('删除中...', { nzDuration: 0 }).messageId;
+    }
     return this.httpClient.delete(URL, {
       params
     }).pipe(
       map((response: HttpResponseType) => {
         return this.responseHandler(response, messageID);
         }),
-      catchError(this.handleError(messageID, feedback, safeResult))
+      catchError(this.handleError(safeResponse, errorSource, messageID))
     );
   }
 

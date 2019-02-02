@@ -69,6 +69,14 @@
                   "with": "src/environments/environment.staging.ts"
                 }
               ]
+            },
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
@@ -83,6 +91,10 @@
             },
             "staging": {
               "browserTarget": "fun-house-fe:build:staging"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "fun-house-fe:build:hmr"
             }
           }
         },

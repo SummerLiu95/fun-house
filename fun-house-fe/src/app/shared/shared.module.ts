@@ -13,6 +13,6 @@ import { DynamicFormItemComponent } from './components/dynamic-form-item/dynamic
     FormsModule,
     NgZorroAntdModule
   ],
-  exports: [DynamicFormItemComponent]
+  exports: [DynamicFormItemComponent],
 })
-export class ToolModule { }
+export class SharedModule { }
