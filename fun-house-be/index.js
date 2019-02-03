@@ -43,11 +43,15 @@ function getInformation(finder, target, infoArray) {
         let contentNode = node.find('div.topic-content');
         let content = contentNode.text();
         let array = infoArray;
-        let score = 0;
+        let score = 0,
+                total = 0,
+                temp = 0;
         for (let i = 0; i < array.length; i++) {
+            total += (i + 1);
             if (content.indexOf(array[i]) !== -1) {
-                score += (i + 1);
+                temp += (i + 1);
             }
+            score = Math.floor(((temp/total) * 100));
         }
         // 从目标页面中寻找页面URL信息
         let infoNode = finder('div#sep.tabs');
@@ -180,7 +184,17 @@ function index(page, baseURL, keywordsArray, httpResponse, proxies) {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*' // 解决跨域问题，重点
             });
-            httpResponse.end(JSON.stringify(result));
+            if (result && result.length > 0) {
+                const response = {
+                    code: 0,
+                    msg: 'SUCCESS',
+                    data: {
+                        total: result.length,
+                        list: result
+                    }
+                }
+                httpResponse.end(JSON.stringify(response));
+            }
         })
     });
 }
@@ -270,8 +284,8 @@ http.createServer(function (request, response) {
             index(pages, baseURL, resultArray, response);
         }
     }
-}).listen(8200);
-console.log("The server is running at port 8200");
+}).listen(8090);
+console.log("The server is running at port 8090");
 
 
 
