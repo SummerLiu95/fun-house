@@ -1,6 +1,14 @@
 nz-form-item {
   margin-top: 2rem;
 
+  .item {
+    width: 60%;
+  }
+
+  input[nz-input] {
+    margin-right: 8px;
+  }
+
   .dynamic-delete-button {
     cursor: pointer;
     position: relative;

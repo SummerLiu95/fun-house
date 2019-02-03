@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpResponseType, HttpService } from './http.service';
+import { HttpResponseType, HttpService, ParamsType } from './http.service';
 import { API } from '../api';
 import { Observable } from 'rxjs';
-import { TableListResponseType } from '../type/types';
+import { SearchResultItemType, TableListResponseType } from '../type/types';
 import { HandleError, HttpErrorHandlerService } from './http-error-handler.service';
 import { map } from 'rxjs/operators';
 
@@ -35,4 +35,13 @@ export class DataService {
         return res.data.list;
       }));
   }*/
+
+  getSearchResult(params: ParamsType): Observable<SearchResultItemType[]> {
+    return this.http.Get(API.search, params, safeResultList, '获取爬虫结果')
+      .pipe(
+        map((res: HttpResponseType<TableListResponseType>) => {
+          return res.data.list;
+        })
+      );
+  }
 }

@@ -1,10 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import { DataService } from '../../service/data.service';
+import { SearchResultItemType } from '../../type/types';
+
 
 interface FormItem  {
   id: number;
   controlInstance: string;
+}
+
+interface ForumItem {
+  name: string;
+  URL: string;
 }
 
 @Component({
@@ -15,17 +23,60 @@ interface FormItem  {
 export class DynamicFormItemComponent implements OnInit {
   @Input() defaultSize: number;
   @Input() maxFormItemSize: number;
+  @Output() search: EventEmitter<SearchResultItemType[]> = new EventEmitter<SearchResultItemType[]>();
   currentFormItemSize = 0;
   validateForm: FormGroup;
   controlArray: Array<FormItem> = [];
+  forumList: ForumItem[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private message: NzMessageService
-  ) { }
+    private message: NzMessageService,
+    private dataService: DataService
+  ) {
+    this.forumList = [
+      {
+        name: '豆瓣小组——广州租房',
+        URL: 'https://www.douban.com/group/gz020/'
+      },
+      {
+        name: '豆瓣小组——广州天河租房',
+        URL: 'https://www.douban.com/group/tianhezufang/'
+      },
+      {
+        name: '豆瓣小组——广州荔湾租房',
+        URL: 'https://www.douban.com/group/liwanzufang/'
+      },
+      {
+        name: '豆瓣小组——广州海珠租房',
+        URL: 'https://www.douban.com/group/haizhuzufang/'
+      },
+      {
+        name: '豆瓣小组——广州越秀租房',
+        URL: 'https://www.douban.com/group/yuexiuzufang/'
+      },
+      {
+        name: '豆瓣小组——广州番禺租房',
+        URL: 'https://www.douban.com/group/panyuzufang/'
+      },
+      {
+        name: '豆瓣小组——广州白云租房',
+        URL: 'https://www.douban.com/group/baiyunzufang/'
+      },
+      {
+        name: '豆瓣小组——上海租房',
+        URL: 'https://www.douban.com/group/shanghaizufang/'
+      },
+      {
+        name: '豆瓣小组——北京租房',
+        URL: 'https://www.douban.com/group/beijingzufang/'
+      }
+    ];
+  }
 
   ngOnInit() {
     this.validateForm = this.formBuilder.group({});
+    this.validateForm.addControl('selection', new FormControl(null, Validators.required));
     while (this.currentFormItemSize < this.defaultSize) {
       this.addField();
       this.currentFormItemSize++;
@@ -92,5 +143,14 @@ export class DynamicFormItemComponent implements OnInit {
       }
     }
     console.log(this.validateForm.value);
+    let queryParams = { ...this.validateForm.value};
+    queryParams = Object.assign(queryParams, {
+      pages: 1,
+      isProxy: 0
+    });
+    console.log(queryParams);
+    this.dataService.getSearchResult(queryParams).subscribe((res) => {
+      this.search.emit(res);
+    });
   }
 }

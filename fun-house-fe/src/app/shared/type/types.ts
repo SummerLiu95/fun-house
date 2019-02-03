@@ -1,6 +1,10 @@
 export interface TableListResponseType<T = any> {
   total: number;
   list: Array<T>;
-  pageNum: number;
-  pageSize: number;
+}
+
+export interface SearchResultItemType {
+  href: string;
+  score: number;
+  title: string;
 }

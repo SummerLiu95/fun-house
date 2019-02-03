@@ -27,7 +27,7 @@ export enum PostContentType {
 }
 
 // 参数类型声明
-interface ParamsType  {
+export interface ParamsType  {
   [propName: string]: any;
 }
 

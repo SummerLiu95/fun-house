@@ -40,6 +40,8 @@ $main_search_width: 30%;
       float: left;
       width: 100% - $main_search_width;
       height: 100%;
+      padding: 1rem;
+      overflow: scroll;
     }
   }
 }

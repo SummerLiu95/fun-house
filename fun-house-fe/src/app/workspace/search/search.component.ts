@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SearchResultItemType } from '../../shared/type/types';
 
 @Component({
   selector: 'app-search',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  searchArray: SearchResultItemType[];
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  getResult($event: SearchResultItemType[]) {
+    this.searchArray = $event;
+  }
 }

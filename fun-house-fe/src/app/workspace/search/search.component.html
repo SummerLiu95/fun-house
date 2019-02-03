@@ -4,9 +4,26 @@
   <nz-content class="content">
     <div class="content__main">
       <div class="main__search">
-        <app-dynamic-form-item [defaultSize]="3" [maxFormItemSize]="5"></app-dynamic-form-item>
+        <app-dynamic-form-item [defaultSize]="3" [maxFormItemSize]="5" (search)="getResult($event)"></app-dynamic-form-item>
       </div>
-      <div class="main__result"></div>
+      <div class="main__result">
+        <nz-table #searchTable [nzData]="searchArray" nzBordered>
+          <thead>
+          <tr>
+            <th>排名</th>
+            <th>帖子地址</th>
+            <th>心水程度</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of searchTable.data; let i = index">
+            <td> {{ i + 1 }} </td>
+            <td><a [href]="item.href" target="_blank">{{ item.title }}</a></td>
+            <td> {{ item.score }}% </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </div>
     </div>
   </nz-content>
   <nz-footer class="footer">FunHouse ©2018 Developed By BarryLiu</nz-footer>
