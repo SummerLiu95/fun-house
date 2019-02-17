@@ -41,7 +41,7 @@ $main_search_width: 30%;
       width: 100% - $main_search_width;
       height: 100%;
       padding: 1rem;
-      overflow: scroll;
+      overflow-y: auto;
     }
   }
 }
