@@ -36,39 +36,39 @@ export class DynamicFormItemComponent implements OnInit {
   ) {
     this.forumList = [
       {
-        name: '豆瓣小组——广州租房',
+        name: '广州租房',
         URL: 'https://www.douban.com/group/gz020/'
       },
       {
-        name: '豆瓣小组——广州天河租房',
+        name: '广州天河租房',
         URL: 'https://www.douban.com/group/tianhezufang/'
       },
       {
-        name: '豆瓣小组——广州荔湾租房',
+        name: '广州荔湾租房',
         URL: 'https://www.douban.com/group/liwanzufang/'
       },
       {
-        name: '豆瓣小组——广州海珠租房',
+        name: '广州海珠租房',
         URL: 'https://www.douban.com/group/haizhuzufang/'
       },
       {
-        name: '豆瓣小组——广州越秀租房',
+        name: '广州越秀租房',
         URL: 'https://www.douban.com/group/yuexiuzufang/'
       },
       {
-        name: '豆瓣小组——广州番禺租房',
+        name: '广州番禺租房',
         URL: 'https://www.douban.com/group/panyuzufang/'
       },
       {
-        name: '豆瓣小组——广州白云租房',
+        name: '广州白云租房',
         URL: 'https://www.douban.com/group/baiyunzufang/'
       },
       {
-        name: '豆瓣小组——上海租房',
+        name: '上海租房',
         URL: 'https://www.douban.com/group/shanghaizufang/'
       },
       {
-        name: '豆瓣小组——北京租房',
+        name: '北京租房',
         URL: 'https://www.douban.com/group/beijingzufang/'
       }
     ];

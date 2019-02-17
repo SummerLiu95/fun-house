@@ -1,6 +1,6 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
   <nz-form-item>
-    <nz-form-label [nzXs]="24" [nzSm]="8">搜索来源</nz-form-label>
+    <nz-form-label [nzXs]="24" [nzSm]="8">豆瓣小组</nz-form-label>
     <nz-form-control [nzXs]="24" [nzSm]="16" [nzOffset]="0">
       <nz-select class="item" formControlName="selection">
         <nz-option *ngFor="let item of forumList" [nzLabel]="item.name" [nzValue]="item.URL"></nz-option>
