@@ -4,10 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build --configuration=production --outputHashing=all",
-    "staging": "ng build --configuration=staging --outputHashing=all",
+    "build": "ng build --configuration=production --statsJson=true",
+    "staging": "ng build --configuration=staging --statsJson=true",
     "dev": "ng build --outputHashing=all",
     "hmr": "ng serve --open --configuration hmr",
+    "analyze": "webpack-bundle-analyzer dist/fun-house-fe/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -54,6 +55,7 @@
     "protractor": "~5.4.2",
     "ts-node": "~7.0.0",
     "tslint": "~5.12.1",
-    "typescript": "~3.2.4"
+    "typescript": "~3.2.4",
+    "webpack-bundle-analyzer": "^3.0.4"
   }
 }
