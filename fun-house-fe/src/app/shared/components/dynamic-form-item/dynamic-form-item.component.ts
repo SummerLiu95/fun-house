@@ -102,7 +102,6 @@ export class DynamicFormItemComponent implements OnInit {
       controlInstance: `keyword${id}`
     };
     const index = this.controlArray.push(control);
-    console.log(this.controlArray[this.controlArray.length - 1]);
     this.validateForm.addControl(this.controlArray[index - 1].controlInstance, new FormControl(null, Validators.required));
   }
 
@@ -119,7 +118,6 @@ export class DynamicFormItemComponent implements OnInit {
     } else if (this.controlArray.length > 1) {
       const index = this.controlArray.indexOf(i);
       this.controlArray.splice(index, 1);
-      console.log(this.controlArray);
       this.validateForm.removeControl(i.controlInstance);
     }
   }
@@ -142,13 +140,10 @@ export class DynamicFormItemComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-    console.log(this.validateForm.value);
     let queryParams = { ...this.validateForm.value};
     queryParams = Object.assign(queryParams, {
-      pages: 1,
-      isProxy: 0
+      pages: 1
     });
-    console.log(queryParams);
     this.dataService.getSearchResult(queryParams).subscribe((res) => {
       this.search.emit(res);
     });
