@@ -3,10 +3,6 @@ const cheerio = require('cheerio');
 const async = require('async');
 let http = require('http');
 const random_ua = require('random-ua');
-const request = require("request");
-
-require('superagent-proxy')(superagent);
-require('superagent-retry-delay')(superagent);
 
 /**
  * 对 HTML 内容进行爬取
@@ -74,9 +70,8 @@ function getInformation(finder, target, infoArray) {
  * @param baseURL|string 爬虫论坛baseURL
  * @param keywordsArray|Array 关键词数组
  * @param httpResponse|Object nodejs http响应对象
- * @param proxies|Array 代理ip数组
  */
-function index(page, baseURL, keywordsArray, httpResponse, proxies) {
+function index(page, baseURL, keywordsArray, httpResponse) {
     let requestCount = 0;
     let pageURL = '';
     let pageURLs = [];
@@ -90,50 +85,25 @@ function index(page, baseURL, keywordsArray, httpResponse, proxies) {
         requestCount++;
         console.time('耗时');
         concurrencyCount++;
-        if (proxies && proxies.length > 0){
-            let proxyIndex = requestCount % proxies.length;
-            superagent
-                .get(url)
-                .set('User-Agent', random_ua.generate())
-                .proxy(proxies[proxyIndex])
-                .retry(1, 500, [401, 404])
-                .end(function (err, res) {
-                    console.log('并发数:', concurrencyCount--, '     fetch', url);
+        superagent
+            .get(url)
+            .set('User-Agent', random_ua.generate())
+            .end(function (err, res) {
+                console.log('并发数:', concurrencyCount--, '     fetch', url);
 
-                    //抛错拦截
-                    if (err) {
-                        callback(err);
-                        throw Error(err);
-                    }
-                    /**
-                     * res.txt 包含未解析前的响应内容
-                     * 我们通过cheerio的load方法解析整个文档，就是html页面所有内容，可以通过console.log($.html())在控制台查看
-                     */
-                    let $ = cheerio.load(res.text);
-                    let array = getInformation($, target, keywordsArray);
-                    callback(null, array);
-                });
-        } else {
-            superagent
-                .get(url)
-                .set('User-Agent', random_ua.generate())
-                .end(function (err, res) {
-                    console.log('并发数:', concurrencyCount--, '     fetch', url);
-
-                    //抛错拦截
-                    if (err) {
-                        callback(err);
-                        throw Error(err);
-                    }
-                    /**
-                     * res.txt 包含未解析前的响应内容
-                     * 我们通过cheerio的load方法解析整个文档，就是html页面所有内容，可以通过console.log($.html())在控制台查看
-                     */
-                    let $ = cheerio.load(res.text);
-                    let array = getInformation($, target, keywordsArray);
-                    callback(null, array);
-                });
-        }
+                //抛错拦截
+                if (err) {
+                    callback(err);
+                    throw Error(err);
+                }
+                /**
+                 * res.txt 包含未解析前的响应内容
+                 * 我们通过cheerio的load方法解析整个文档，就是html页面所有内容，可以通过console.log($.html())在控制台查看
+                 */
+                let $ = cheerio.load(res.text);
+                let array = getInformation($, target, keywordsArray);
+                callback(null, array);
+            });
     };
 
     /**
@@ -192,7 +162,7 @@ function index(page, baseURL, keywordsArray, httpResponse, proxies) {
                         total: result.length,
                         list: result
                     }
-                }
+                };
                 httpResponse.end(JSON.stringify(response));
             }
         })
@@ -225,64 +195,16 @@ function decodeURL(array) {
     return resultArray;
 }
 
-/**
- * 检测代理IP的有效性
- * @param proxy|string 代理IP
- */
-function check(proxy) {
-    //尝试请求豆瓣小组主页
-    let url = "https://www.douban.com/group/gz020/discussion?start=0";
-    request({
-        url: url,
-        proxy: proxy,
-        method: 'GET',
-        timeout: 1000  //20s没有返回则视为代理不行
-    }, function (error, response, body) {
-        if (!error) {
-            if (response.statusCode == 200) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    });
-}
 
 http.createServer(function (request, response) {
     let url = request.url;
     if (url.indexOf('/search?') !== -1) {
         let infoArray = parseURL(url);              // 将url请求链接的请求参数放到数组中
         let baseURL = infoArray.shift();            // 数组第一项为爬虫的目标地址
-        let isProxy = +infoArray.pop();
         let pages = +infoArray.pop();
         infoArray.reverse();
         let resultArray = decodeURL(infoArray);
-        if (isProxy) {
-            let proxyIPs, tempProxyIPs;
-            superagent
-                .get('http://111.230.72.118:8899/api/v1/proxies')
-                .query({countries: 'CN'})
-                .query({https: false})
-                .end(function (err, res) {
-                    if (err) {
-                        callback(err);
-                        throw Error(err);
-                    } else {
-                        tempProxyIPs = (JSON.parse(res.text))['proxies'];
-                        proxyIPs = tempProxyIPs.map( item => {
-                            return `http://${item.ip}:${item.port}`;
-                        });
-                        let checkedProxies = proxyIPs.filter(ip => {
-                            return check(ip);
-                        });
-                        index(pages, baseURL, resultArray, response, checkedProxies);
-                    }
-                });
-        } else {
-            index(pages, baseURL, resultArray, response);
-        }
+        index(pages, baseURL, resultArray, response);
     }
 }).listen(8090);
 console.log("The server is running at port 8090");
