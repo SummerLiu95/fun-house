@@ -79,10 +79,7 @@ function index(page: number, baseURL: string, keywordsArray: string[], httpRespo
       originData = originData.concat(result[i]);
     }
 
-    // 将上面获得的对象数组中的href属性取出来放到新的数组中
-    let contentURLS = originData.map(page => page['href']);
-
-    async.mapLimit(contentURLS, 1, function (url, callback) {
+    async.mapLimit(originData, 1, function (url, callback) {
       fetchURL(url, callback, 'content');
     }, function (err, result) {
       let filterResult = result.filter(page => page['score'] > 0).sort((a: any, b: any) => {
@@ -120,14 +117,10 @@ function getInformation(finder, target, infoArray) {
     itemList.find('tr').each(function (item) {
       let tr = finder(this);
       let a_href = tr.find('.title').children('a').attr('href');
-      let a_title = tr.find('.title').children('a').attr('title');
+      // let a_title = tr.find('.title').children('a').attr('title');
 
-      // 链接和标题都存在的情况下才进行操作
-      if (a_href && a_title) {
-        itemData.push({
-          href: a_href,
-          title: a_title
-        });
+      if (a_href) {
+        itemData.push(a_href);
       }
     });
     return itemData;
@@ -159,7 +152,6 @@ function getInformation(finder, target, infoArray) {
     // 从目标页面中寻找文章标题
     let titleNode = finder('div#content');
     let title = titleNode.children().first().text();
-    console.log(title);
     itemData.score = score;
     itemData.href = realTargetURL[0];
     itemData.title = title.trim();
