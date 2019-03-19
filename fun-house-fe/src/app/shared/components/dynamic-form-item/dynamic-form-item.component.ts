@@ -28,6 +28,7 @@ export class DynamicFormItemComponent implements OnInit {
   validateForm: FormGroup;
   controlArray: Array<FormItem> = [];
   forumList: ForumItem[] = [];
+  keywordExample = ['小区', '两房一厅', '家具齐全', '精装修', '地铁'];
 
   constructor(
     private formBuilder: FormBuilder,
