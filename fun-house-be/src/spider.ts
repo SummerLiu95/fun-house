@@ -6,20 +6,20 @@ import async from "async";
 
 export class Spider {
   public pageURLs: string[];
-  private searcher: PageSearcher;
+
   constructor() {
     this.pageURLs = [];
-    this.searcher = new PageSearcher();
   }
 
   index(page: number, baseURL: string, keywords: string[], res: any): void {
+    let searcher = new PageSearcher();
     for (let i = 0; i < page; i++) {
       this.pageURLs.push(`${baseURL}/discussion?start=${i * 25}`);
     }
 
     let self = this;
     async.mapLimit(this.pageURLs, 2, function (url: string, callback: any) {
-      self.fetchForumURL(url, callback, self);
+      self.fetchInfoURL(url, callback, searcher, false);
     }, function (err, result) {
       let originData = [];
 
@@ -29,7 +29,7 @@ export class Spider {
       }
 
       async.mapLimit(originData, 1, function (url, callback) {
-        self.fetchPostURL(url, callback, keywords, self);
+        self.fetchInfoURL(url, callback, searcher, true, keywords);
       }, function (err, result) {
         let filterResult = result.filter((page: PostContentItem) => page.score > 0).sort((a: PostContentItem, b: PostContentItem) => {
           return (b.score - a.score);
@@ -53,7 +53,7 @@ export class Spider {
     });
   }
 
-  fetchForumURL(url: string, callback: any, env: any): void {
+  fetchInfoURL(url: string, callback: any, searcher: PageSearcher, isPost: boolean, keywords?: string[]): void {
     superagent
       .get(url)
       .set('User-Agent', random_ua.generate())
@@ -68,27 +68,7 @@ export class Spider {
          * 我们通过cheerio的load方法解析整个文档，就是html页面所有内容，可以通过console.log($.html())在控制台查看
          */
         let $ = cheerio.load(res.text);
-        let array = env.searcher.getPostsOnForum($);
-        callback(null, array);
-      });
-  }
-
-  fetchPostURL(url: string, callback: any, keywords: string[], env: any): void {
-    superagent
-      .get(url)
-      .set('User-Agent', random_ua.generate())
-      .end(function (err, res) {
-        //抛错拦截
-        if (err) {
-          callback(err);
-          throw Error(err);
-        }
-        /**
-         * res.txt 包含未解析前的响应内容
-         * 我们通过cheerio的load方法解析整个文档，就是html页面所有内容，可以通过console.log($.html())在控制台查看
-         */
-        let $ = cheerio.load(res.text);
-        let array = env.searcher.getContentFromPost($, keywords);
+        let array = isPost ?  searcher.getContentFromPost($, keywords) : searcher.getPostsOnForum($);
         callback(null, array);
       });
   }
