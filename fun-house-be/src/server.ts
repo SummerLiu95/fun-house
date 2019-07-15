@@ -1,6 +1,7 @@
-import {QueryType} from "./model";
+import {QueryType} from './model';
 import app from './app';
-import {Spider} from "./spider";
+import {Spider} from './spider';
+import express from 'express';
 
 const port = 8090;
 let spider = new Spider();
@@ -9,9 +10,8 @@ app.listen(port, function () {
   console.log('Express server listening on port ' + port);
 });
 
-app.get('*', (req: any, res: any) => {
-  let query: QueryType = null;
-  query = req.query;
+app.get('/search', (req: express.Request, res: express.Response) => {
+  let query: QueryType = req.query;
   let targetURL = query.selection;
   let targetPages = +query.pages;
   delete query.pages;
