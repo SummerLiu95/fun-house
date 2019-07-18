@@ -16,7 +16,7 @@ app.listen(port, function () {
 
 app.use(morgan('combined', { stream: accessLogStream }));
 
-app.get('/search', (req: express.Request, res: express.Response) => {
+app.get('/api/search', (req: express.Request, res: express.Response) => {
   let query: QueryType = req.query;
   let targetURL = query.selection;
   let targetPages = +query.pages;
