@@ -1,8 +1,9 @@
-import superagent from "superagent";
-import random_ua from "random-ua";
-import cheerio from "cheerio";
-import {PageSearcher, PostContentItem} from "./page-searcher";
-import async from "async";
+import superagent from 'superagent';
+import random_ua from 'random-ua';
+import cheerio from 'cheerio';
+import {PageSearcher, PostContentItem} from './page-searcher';
+import async from 'async';
+import { Response, NextFunction } from 'express';
 
 export class Spider {
   public pageURLs: string[];
@@ -11,7 +12,7 @@ export class Spider {
     this.pageURLs = [];
   }
 
-  index(page: number, baseURL: string, keywords: string[], res: any): void {
+  index(page: number, baseURL: string, keywords: string[], res: Response, next: NextFunction): void {
     let searcher = new PageSearcher();
     for (let i = 0; i < page; i++) {
       this.pageURLs.push(`${baseURL}/discussion?start=${i * 25}`);
@@ -19,7 +20,7 @@ export class Spider {
 
     let self = this;
     async.mapLimit(this.pageURLs, 2, function (url: string, callback: any) {
-      self.fetchInfoURL(url, callback, searcher, false);
+      self.fetchInfoURL(next, url, callback, searcher, false);
     }, function (err, result) {
       let originData = [];
 
@@ -29,7 +30,7 @@ export class Spider {
       }
 
       async.mapLimit(originData, 1, function (url, callback) {
-        self.fetchInfoURL(url, callback, searcher, true, keywords);
+        self.fetchInfoURL(next, url, callback, searcher, true, keywords);
       }, function (err, result) {
         let filterResult = result.filter((page: PostContentItem) => page.score > 0).sort((a: PostContentItem, b: PostContentItem) => {
           return (b.score - a.score);
@@ -53,14 +54,14 @@ export class Spider {
     });
   }
 
-  fetchInfoURL(url: string, callback: any, searcher: PageSearcher, isPost: boolean, keywords?: string[]): void {
+  fetchInfoURL(next: NextFunction, url: string, callback: any, searcher: PageSearcher, isPost: boolean, keywords?: string[]): void {
     superagent
       .get(url)
       .set('User-Agent', random_ua.generate())
       .end(function (err, res) {
         //抛错拦截
         if (err) {
-          callback(err);
+          next(err);
           throw Error(err);
         }
         /**

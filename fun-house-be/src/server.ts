@@ -1,7 +1,7 @@
 import {QueryType} from './model';
 import app from './app';
 import {Spider} from './spider';
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import morgan from 'morgan';
 import fs from 'fs';
 import path from 'path';
@@ -16,12 +16,12 @@ app.listen(port, function () {
 
 app.use(morgan('combined', { stream: accessLogStream }));
 
-app.get('/api/search', (req: express.Request, res: express.Response) => {
+app.get('/api/search', (req: Request, res: Response, next: NextFunction) => {
   let query: QueryType = req.query;
   let targetURL = query.selection;
   let targetPages = +query.pages;
   delete query.pages;
   delete query.selection;
   let keywords = Object.values(query).reverse();
-  spider.index(targetPages, targetURL, keywords, res);
+  spider.index(targetPages, targetURL, keywords, res, next);
 });
